@@ -1,0 +1,189 @@
+@import "tailwindcss";
+@source "../../../packages/ui/src";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   Design Tokens — day and night palettes with soft surfaces
+   ============================================================ */
+
+@theme inline {
+  /* Color mappings for Tailwind utility classes */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-link: hsl(var(--text-link));
+  --color-danger: hsl(var(--text-danger));
+  --color-warning: hsl(var(--text-warning));
+  --color-success: hsl(var(--text-success));
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans), "Avenir Next", "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), "Monaco", "Menlo", monospace;
+
+  /* Shared radius for controls and compact surfaces */
+  --radius: 0.875rem;
+}
+
+/* ============================================================
+   Root design variables (light mode)
+   ============================================================ */
+:root {
+  color-scheme: light;
+  --background: 210 30% 97%;
+  --foreground: 210 30% 10%;
+
+  --card: 210 36% 99%;
+  --card-foreground: 210 30% 10%;
+
+  --popover: 210 36% 99%;
+  --popover-foreground: 210 30% 10%;
+
+  --primary: 191 92% 26%;
+  --primary-foreground: 210 36% 98%;
+
+  --secondary: 52 85% 90%;
+  --secondary-foreground: 210 30% 12%;
+
+  --muted: 200 30% 93%;
+  --muted-foreground: 212 18% 34%;
+
+  --accent: 187 44% 92%;
+  --accent-foreground: 210 30% 12%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 202 26% 78%;
+  --input: 202 26% 78%;
+  --ring: 191 92% 26%;
+
+  --text-strong: 210 30% 10%;
+  --text-soft: 212 18% 34%;
+  --text-link: 191 92% 26%;
+  --text-danger: 0 75% 40%;
+  --text-warning: 36 95% 30%;
+  --text-success: 147 60% 30%;
+
+  --shadow-elevated: 0 20px 50px -30px rgba(15, 23, 42, 0.18);
+  --shadow-overlay: 0 22px 50px -26px rgba(7, 16, 24, 0.36);
+
+  --motion-duration-fast: 180ms;
+  --motion-duration-base: 240ms;
+  --motion-duration-interactive: 300ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   Dark mode — the default experience
+   ============================================================ */
+.dark {
+  color-scheme: dark;
+  --background: 220 18% 9%;
+  --foreground: 220 15% 94%;
+
+  --card: 220 15% 12%;
+  --card-foreground: 220 15% 94%;
+
+  --popover: 220 15% 12%;
+  --popover-foreground: 220 15% 94%;
+
+  --primary: 190 100% 62%;
+  --primary-foreground: 220 20% 10%;
+
+  --secondary: 43 100% 61%;
+  --secondary-foreground: 220 20% 10%;
+
+  --muted: 220 12% 17%;
+  --muted-foreground: 220 10% 70%;
+
+  --accent: 220 12% 17%;
+  --accent-foreground: 220 15% 94%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 220 11% 26%;
+  --input: 220 11% 26%;
+  --ring: 190 100% 62%;
+
+  --text-strong: 220 15% 94%;
+  --text-soft: 220 10% 70%;
+  --text-link: 190 100% 62%;
+  --text-danger: 0 90% 68%;
+  --text-warning: 43 100% 61%;
+  --text-success: 141 74% 56%;
+
+  /* Soft ambient elevation for dark surfaces */
+  --shadow-elevated: 0 16px 42px -30px rgba(0, 0, 0, 0.78);
+  --shadow-overlay: 0 24px 64px -36px rgba(0, 0, 0, 0.82);
+}
+
+/* ============================================================
+   Base styles
+   ============================================================ */
+html {
+  background-color: hsl(var(--background));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: clip;
+}
+
+/* Focus ring */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 3px;
+}
+
+/* Pixel / uppercase display utility class */
+.font-pixel {
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum";
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Logo tilt animations */
+@keyframes jie-logo-word-tilt-left {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg) translateY(-2px); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes jie-logo-word-tilt-right {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg) translateY(-2px); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes jie-logo-line-tilt-top {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes jie-logo-line-tilt-bottom {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+  100% { transform: translateY(0); }
+}
