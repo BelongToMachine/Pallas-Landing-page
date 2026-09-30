@@ -149,6 +149,16 @@ body {
   overflow-x: clip;
 }
 
+.site-header[data-announcement-visible="true"] + .site-main {
+  padding-top: 9rem;
+}
+
+@media (min-width: 1024px) {
+  .site-header[data-announcement-visible="true"] + .site-main {
+    padding-top: 6.5rem;
+  }
+}
+
 /* Focus ring */
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
   outline: 2px solid hsl(var(--ring));

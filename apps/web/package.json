@@ -9,8 +9,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ai-sdk/openai": "^4.0.82",
+    "@ai-sdk/react": "^4.0.126",
     "@asianode/shared": "workspace:*",
     "@asianode/ui": "workspace:*",
+    "@upstash/ratelimit": "^2.2.0",
+    "@upstash/redis": "^1.39.0",
+    "ai": "^7.0.123",
     "lucide-react": "^1.47.0",
     "next": "16.3.5",
     "react": "19.2.8",

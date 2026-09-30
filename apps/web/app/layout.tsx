@@ -24,11 +24,21 @@ export const metadata: Metadata = {
   title: "Pallas — Enterprise Knowledge Base AI",
   description:
     "Permission-aware AI knowledge base for teams. Import your docs, set access controls, and get traceable answers your team can trust.",
+  icons: {
+    icon: "/pallas-mark.svg",
+    shortcut: "/pallas-mark.svg",
+  },
   openGraph: {
     title: "Pallas — Enterprise Knowledge Base AI",
     description:
       "Turn scattered product docs, wikis and FAQs into a permission-aware AI knowledge base.",
     type: "website",
+  },
+  alternates: {
+    languages: {
+      en: "/",
+      "zh-CN": "/zh",
+    },
   },
 };
 

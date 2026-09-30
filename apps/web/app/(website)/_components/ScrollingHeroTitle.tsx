@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import styles from "./ScrollingHeroTitle.module.css";
 
-export default function ScrollingHeroTitle() {
+export default function ScrollingHeroTitle({ locale }: { locale: "en" | "zh" }) {
   useEffect(() => {
     const title = document.querySelector<HTMLElement>("[data-pallas-hero-title]");
     const hero = title?.closest<HTMLElement>("[data-pallas-hero]");
@@ -46,13 +45,13 @@ export default function ScrollingHeroTitle() {
   return (
     <h1
       data-pallas-hero-title
-      className={`${styles.mobileDrift} relative left-1/2 -ml-[50vw] mb-6 block w-screen whitespace-nowrap text-center text-[clamp(1rem,5vw,8rem)] font-black uppercase leading-none tracking-[0.02em] text-foreground`}
+      className="relative z-10 mx-auto mb-8 block w-full max-w-7xl px-2 text-center font-black uppercase leading-none tracking-[0.015em] text-foreground sm:mb-10"
     >
-      <span className="block">YOUR NEXT GEN</span>
-      <span className="mt-[0.04em] block text-[1.15em]">
-        <span className="inline-block bg-primary px-[0.12em] py-[0.04em] text-primary-foreground">
-          TEAM’S AI KNOWLEDGE HUB
-        </span>
+      <span className="block text-[clamp(2.25rem,5.3vw,4.75rem)]">
+        {locale === "zh" ? "新一代团队" : "YOUR NEXT GEN"}
+      </span>
+      <span className="mt-[0.08em] block text-balance text-[clamp(2rem,5.8vw,5.25rem)] leading-[1.02] tracking-[0.01em] text-primary">
+        {locale === "zh" ? "AI 知识中枢" : "TEAM’S AI KNOWLEDGE HUB"}
       </span>
     </h1>
   );
