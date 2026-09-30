@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import SupportChatWidget from "./_components/SupportChatWidget";
+import ContactDemoModal from "./_components/ContactDemoModal";
 
 export default function WebsiteLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
@@ -10,6 +11,7 @@ export default function WebsiteLayout({ children }: Readonly<{ children: ReactNo
       <main className="site-main flex-1 pt-16">{children}</main>
       <Footer />
       <SupportChatWidget />
+      <ContactDemoModal />
     </>
   );
 }

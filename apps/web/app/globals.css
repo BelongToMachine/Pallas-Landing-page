@@ -165,6 +165,10 @@ body {
   outline-offset: 3px;
 }
 
+.support-chat-input:focus-visible {
+  outline: none;
+}
+
 /* Pixel / uppercase display utility class */
 .font-pixel {
   font-family: var(--font-sans);

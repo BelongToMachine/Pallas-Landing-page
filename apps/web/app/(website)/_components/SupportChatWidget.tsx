@@ -6,6 +6,7 @@ import { ArrowUp, Bot, MessageCircle, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
+import { getSiteLocale, type SiteLocale } from "@/lib/i18n";
 
 const PRODUCT_LINK_PATTERN =
   /(https:\/\/(?:asianodeatlas\.com\/?|github\.com\/BelongToMachine\/agent-workflow-fast-api))/g;
@@ -35,7 +36,7 @@ const copy = {
     title: "Ask Pallas",
     subtitle: "Product questions, answered",
     greeting: "Hi! I can help you understand Pallas, its features, and deployment options. What would you like to know?",
-    suggestions: ["What file formats does Pallas support?", "How does private deployment work?", "Is Pallas Cloud available yet?"],
+    suggestions: ["What does Pallas do?", "Who is Pallas for?", "How can I contact the team about private deployment?"],
     placeholder: "Ask a question about Pallas…",
     send: "Send message",
     typing: "Pallas is thinking",
@@ -48,14 +49,78 @@ const copy = {
     title: "咨询 Pallas",
     subtitle: "了解产品与部署方案",
     greeting: "你好！我可以介绍 Pallas 的产品功能和部署方式。你想了解什么？",
-    suggestions: ["Pallas 支持哪些文件格式？", "企业私有部署如何沟通？", "Pallas Cloud 已经开放了吗？"],
+    suggestions: ["Pallas 是做什么的？", "Pallas 适合哪些用户？", "如何联系私有化部署？"],
     placeholder: "输入你想了解的问题…",
     send: "发送消息",
     typing: "Pallas 正在思考",
     error: "暂时没能回答，请稍后重试，或联系 Pallas 团队。",
     note: "回答依据官网公开的产品信息。",
   },
-} as const;
+  tr: {
+    open: "Pallas destek sohbetini aç",
+    close: "Sohbeti kapat",
+    title: "Pallas'a sorun",
+    subtitle: "Ürün sorularınıza yanıt",
+    greeting: "Merhaba! Pallas'ı, özelliklerini ve dağıtım seçeneklerini tanımanıza yardımcı olabilirim. Ne öğrenmek istersiniz?",
+    suggestions: ["Pallas ne işe yarar?", "Pallas kimler için uygundur?", "Özel dağıtım hakkında ekiple nasıl iletişime geçebilirim?"],
+    placeholder: "Pallas hakkında bir soru sorun…",
+    send: "Mesaj gönder",
+    typing: "Pallas düşünüyor",
+    error: "Şu anda yanıt veremedim. Lütfen tekrar deneyin ya da Pallas ekibiyle iletişime geçin.",
+    note: "Yanıtlar, herkese açık ürün bilgilerine dayanır.",
+  },
+  fr: {
+    open: "Ouvrir le chat d’assistance Pallas",
+    close: "Fermer le chat",
+    title: "Poser une question à Pallas",
+    subtitle: "Réponses sur le produit",
+    greeting: "Bonjour ! Je peux vous aider à découvrir Pallas, ses fonctionnalités et ses options de déploiement. Que souhaitez-vous savoir ?",
+    suggestions: ["À quoi sert Pallas ?", "À qui s’adresse Pallas ?", "Comment contacter l’équipe au sujet d’un déploiement privé ?"],
+    placeholder: "Posez une question sur Pallas…",
+    send: "Envoyer le message",
+    typing: "Pallas réfléchit",
+    error: "Je n’ai pas pu répondre pour le moment. Réessayez ou contactez l’équipe Pallas.",
+    note: "Les réponses s’appuient sur les informations publiques du produit.",
+  },
+  ja: {
+    open: "Pallas サポートチャットを開く",
+    close: "チャットを閉じる",
+    title: "Pallas に質問する",
+    subtitle: "製品についてお答えします",
+    greeting: "こんにちは。Pallas の機能や導入方法についてご案内します。何を知りたいですか？",
+    suggestions: ["Pallas は何をするサービスですか？", "Pallas はどのようなユーザーに向いていますか？", "プライベート導入について、どのように問い合わせればよいですか？"],
+    placeholder: "Pallas について質問する…",
+    send: "メッセージを送信",
+    typing: "Pallas が回答を作成中",
+    error: "ただいま回答できません。もう一度お試しいただくか、Pallas チームにお問い合わせください。",
+    note: "回答は公開されている製品情報に基づいています。",
+  },
+  es: {
+    open: "Abrir el chat de soporte de Pallas",
+    close: "Cerrar el chat",
+    title: "Pregunta a Pallas",
+    subtitle: "Respuestas sobre el producto",
+    greeting: "¡Hola! Puedo ayudarte a conocer Pallas, sus funciones y opciones de despliegue. ¿Qué te gustaría saber?",
+    suggestions: ["¿Qué hace Pallas?", "¿Para qué tipo de usuarios es adecuado Pallas?", "¿Cómo puedo contactar con el equipo sobre un despliegue privado?"],
+    placeholder: "Pregunta sobre Pallas…",
+    send: "Enviar mensaje",
+    typing: "Pallas está pensando",
+    error: "No he podido responder ahora. Inténtalo de nuevo o contacta con el equipo de Pallas.",
+    note: "Las respuestas se basan en información pública del producto.",
+  },
+} satisfies Record<SiteLocale, {
+  open: string;
+  close: string;
+  title: string;
+  subtitle: string;
+  greeting: string;
+  suggestions: string[];
+  placeholder: string;
+  send: string;
+  typing: string;
+  error: string;
+  note: string;
+}>;
 
 function getMessageText(parts: Array<{ type: string; text?: string }>): string {
   return parts
@@ -66,7 +131,7 @@ function getMessageText(parts: Array<{ type: string; text?: string }>): string {
 
 export default function SupportChatWidget() {
   const pathname = usePathname();
-  const locale = pathname === "/zh" || pathname.startsWith("/zh/") ? "zh" : "en";
+  const locale = getSiteLocale(pathname);
   const t = copy[locale];
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -76,10 +141,10 @@ export default function SupportChatWidget() {
       new DefaultChatTransport({
         api: "/api/ai/support",
         prepareSendMessagesRequest: ({ messages }) => ({
-          body: { messages: messages.slice(-12) },
+          body: { messages: messages.slice(-12), locale },
         }),
       }),
-    [],
+    [locale],
   );
   const { messages, sendMessage, status, error, clearError } = useChat({ transport });
   const isBusy = status === "submitted" || status === "streaming";
@@ -124,7 +189,7 @@ export default function SupportChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
+    <div lang={locale === "zh" ? "zh-CN" : locale} className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
       {isOpen && (
         <section
           id="pallas-support-chat-panel"
@@ -143,7 +208,7 @@ export default function SupportChatWidget() {
               type="button"
               onClick={() => setIsOpen(false)}
               aria-label={t.close}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               <X aria-hidden="true" className="h-4 w-4" />
             </button>
@@ -168,7 +233,7 @@ export default function SupportChatWidget() {
                       type="button"
                       disabled={isBusy}
                       onClick={() => submitMessage(suggestion)}
-                      className="block max-w-full rounded-full border border-primary/25 bg-primary/[0.045] px-3 py-2 text-left text-xs leading-relaxed text-foreground transition-colors hover:border-primary/45 hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="block max-w-full cursor-pointer rounded-full border border-primary/25 bg-primary/[0.045] px-3 py-2 text-left text-xs leading-relaxed text-foreground transition-colors hover:border-primary/45 hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {suggestion}
                     </button>
@@ -228,13 +293,13 @@ export default function SupportChatWidget() {
                 disabled={isBusy}
                 aria-label={t.placeholder}
                 placeholder={t.placeholder}
-                className="max-h-28 min-h-8 flex-1 resize-none bg-transparent py-1.5 text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground disabled:opacity-60"
+                className="support-chat-input max-h-28 min-h-8 flex-1 resize-none bg-transparent py-1.5 text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={isBusy || !input.trim()}
                 aria-label={t.send}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-[transform,background-color] hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-primary text-primary-foreground transition-[transform,background-color] hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <ArrowUp aria-hidden="true" className="h-4 w-4" />
               </button>
@@ -251,7 +316,7 @@ export default function SupportChatWidget() {
         aria-controls="pallas-support-chat-panel"
         title={isOpen ? t.close : t.open}
         onClick={() => setIsOpen((open) => !open)}
-        className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-[0_14px_32px_-14px_hsl(var(--primary)/0.7)] transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-[0_18px_38px_-14px_hsl(var(--primary)/0.72)] active:translate-y-0"
+        className="group relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-[0_14px_32px_-14px_hsl(var(--primary)/0.7)] transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-[0_18px_38px_-14px_hsl(var(--primary)/0.72)] active:translate-y-0"
       >
         <span className="absolute inset-0 rounded-full border border-primary-foreground/15" aria-hidden="true" />
         {isOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <MessageCircle aria-hidden="true" className="h-5 w-5" />}

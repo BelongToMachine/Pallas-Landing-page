@@ -1,4 +1,3 @@
-import { createOpenAI } from "@ai-sdk/openai";
 import {
   convertToModelMessages,
   createUIMessageStreamResponse,
@@ -7,7 +6,9 @@ import {
   type UIMessage,
 } from "ai";
 import { PALLAS_SUPPORT_INSTRUCTIONS } from "@/lib/ai/pallas-support";
+import { getPallasModel } from "@/lib/ai/pallas-model";
 import { checkSupportRateLimit } from "@/lib/ai/support-rate-limit";
+import { isSiteLocale, localeNames } from "@/lib/i18n";
 
 export const maxDuration = 30;
 
@@ -78,24 +79,6 @@ function sanitizeMessages(value: unknown): TextMessage[] | Response {
   return sanitized;
 }
 
-function createDeepSeekFetch() {
-  return async (input: RequestInfo | URL, init?: RequestInit) => {
-    if (!init?.body || typeof init.body !== "string") {
-      return fetch(input, init);
-    }
-
-    try {
-      const body = JSON.parse(init.body) as Record<string, unknown>;
-      body.thinking = { type: "disabled" };
-      delete body.reasoning_effort;
-
-      return fetch(input, { ...init, body: JSON.stringify(body) });
-    } catch {
-      return fetch(input, init);
-    }
-  };
-}
-
 export async function POST(request: Request) {
   const rateLimit = await checkSupportRateLimit(request);
   if (!rateLimit.allowed) {
@@ -137,27 +120,23 @@ export async function POST(request: Request) {
     return invalidRequest("Invalid chat request.");
   }
 
-  const messages = sanitizeMessages((body as Record<string, unknown>).messages);
+  const requestBody = body as Record<string, unknown>;
+  const messages = sanitizeMessages(requestBody.messages);
+  const requestedLocale = typeof requestBody.locale === "string" ? requestBody.locale : undefined;
+  const responseLocale = isSiteLocale(requestedLocale) ? requestedLocale : "en";
   if (messages instanceof Response) return messages;
 
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-  if (!apiKey) {
+  const model = getPallasModel();
+  if (!model) {
     return Response.json(
       { error: "Support chat is not configured." },
       { status: 503 },
     );
   }
 
-  const deepseek = createOpenAI({
-    name: "deepseek",
-    apiKey,
-    baseURL: process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com",
-    fetch: createDeepSeekFetch(),
-  });
-
   const result = streamText({
-    model: deepseek.chat("deepseek-flash"),
-    instructions: PALLAS_SUPPORT_INSTRUCTIONS,
+    model,
+    instructions: `${PALLAS_SUPPORT_INSTRUCTIONS}\n\nThe visitor selected ${localeNames[responseLocale]}. Reply in that language unless the visitor explicitly requests another language.`,
     messages: await convertToModelMessages(messages),
     maxOutputTokens: 500,
   });

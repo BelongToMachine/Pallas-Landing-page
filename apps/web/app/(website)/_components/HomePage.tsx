@@ -3,8 +3,7 @@ import Image from "next/image";
 import { ArrowRight, ArrowUpRight, Database, MessageSquare, Shield, FileText, Search, Users, Lock, FileUp, Bot } from "lucide-react";
 import ProductPreview from "./ProductPreview";
 import ScrollingHeroTitle from "./ScrollingHeroTitle";
-
-export type SiteLocale = "en" | "zh";
+import type { SiteLocale } from "@/lib/i18n";
 
 const messages = {
   en: {
@@ -184,13 +183,12 @@ const messages = {
     ],
     storyLabel: "Customer Feedback",
     storyTitlePrefix: "A ",
-    storyTitleAccent: "CEO's",
-    storyTitleSuffix: " perspective on Pallas",
-    portraitAlt: "Portrait of the Asianode CEO",
+    storyTitleAccent: "customer",
+    storyTitleSuffix: " story about Pallas",
+    portraitAlt: "Portrait of an Asianode team member",
     quote:
       "Pallas makes it easier for our team to get clear answers from shared documents. We can verify each response against its source, while role-based access keeps information in the right hands.",
-    quoteBy: "CEO, Asianode",
-    quoteStatus: "Suggested quote · pending approval",
+    quoteBy: "Asianode team",
     brandLink: "Asianode",
     finalTitle: "Stop losing knowledge.",
     finalTitleAccent: "Start answering.",
@@ -370,13 +368,12 @@ const messages = {
     ],
     storyLabel: "客户反馈",
     storyTitlePrefix: "来自 ",
-    storyTitleAccent: "CEO",
+    storyTitleAccent: "Asianode 团队",
     storyTitleSuffix: " 的 Pallas 使用反馈",
-    portraitAlt: "Asianode CEO 肖像",
+    portraitAlt: "Asianode 团队成员肖像",
     quote:
       "Pallas 帮助团队更快地从共享文档中找到清晰答案。每条回答都可以核对来源，基于角色的访问控制也能确保信息只对合适的人开放。",
-    quoteBy: "Asianode CEO",
-    quoteStatus: "建议引述 · 待确认",
+    quoteBy: "Asianode 团队",
     brandLink: "Asianode",
     finalTitle: "别再让知识流失。",
     finalTitleAccent: "现在开始解答。",
@@ -385,13 +382,690 @@ const messages = {
     finalRequestDemo: "预约演示",
     readDocs: "阅读文档",
   },
+  tr: {
+    badge: "Kurumsal Bilgi Yapay Zekâsı",
+    tagline: "Belgeleriniz.",
+    taglineAccent: "Kurallarınız. Yanıtlayan yapay zekâ.",
+    intro:
+      "Pallas, dağınık ürün belgelerini, wiki'leri ve SSS'leri ekiplerin kaynaklarına kadar izlenebilen yanıtlar alabileceği, izinlere duyarlı bir yapay zekâ bilgi tabanında bir araya getirir.",
+    requestDemo: "Demo isteyin",
+    exploreFeatures: "Özellikleri keşfedin",
+    highlights: ["Özel dağıtım", "Çalışma alanı yalıtımı", "Kaynak gösterimi"],
+    knowledgeLabel: "Bilgi Tabanı",
+    knowledgeTitleAccent: "Belgeleriniz",
+    knowledgeTitleRest: " düzenli,",
+    knowledgeTitleSecond: "aranabilir ve hazır",
+    knowledgeDescription: "Bir kez yükleyin, dilediğinizi sorun. Her yanıt kaynağına kadar izlenebilir.",
+    knowledgeFeatures: [
+      {
+        icon: FileUp,
+        title: "Çoklu Biçimde Yükleme",
+        description:
+          "PDF, Excel (.xlsx), CSV, JSON, Markdown ve düz metin dosyalarını sürükleyip bırakın. Arka plandaki eşzamansız işlem; ayrıştırma, parçalara bölme ve durum güncellemelerini yönetir.",
+      },
+      {
+        icon: Search,
+        title: "Anlamsal Arama",
+        description:
+          "pgvector destekli gömmeler belgelerinizden doğru bağlamı bulur. Doğal bir dille sorun; kaynakları belirtilmiş, isabetli yanıtlar alın.",
+      },
+      {
+        icon: FileText,
+        title: "Kaynak Atıfları",
+        description: "Her yanıt, alındığı dosya ve bölüme bağlantı verir. Kaynağı tek tıklamayla doğrulayın.",
+      },
+      {
+        icon: Database,
+        title: "Çalışma Alanı Yalıtımı",
+        description:
+          "Her birinin kendi dosyaları, izinleri ve yaşam döngüsü olan ürün, ekip veya müşteri bilgi tabanları oluşturun.",
+      },
+    ],
+    agentLabel: "Yapay Zekâ Ajanı",
+    agentTitleAccent: "Güvenebileceğiniz",
+    agentTitleRest: " yanıtlar",
+    agentDescription:
+      "Araç destekli erişim, sınırlandırılmış ajan döngüleri ve izin filtreleriyle gerçek zamanlı sohbet.",
+    agentFeatures: [
+      {
+        icon: MessageSquare,
+        title: "Akış Sohbeti",
+        description: "SSE üzerinden gerçek zamanlı yanıtlar. Sohbet geçmişi oturumlar arasında saklanır; bağlantı kesilirse akış devam edebilir.",
+      },
+      {
+        icon: Bot,
+        title: "Kontrollü Ajan İş Akışı",
+        description: "Sunucu tarafındaki araç izin listeleri, parametre doğrulama ve sınırlandırılmış döngüler yanıtları bilgi tabanınıza dayandırır.",
+      },
+      {
+        icon: Shield,
+        title: "İzinlere Duyarlı Erişim",
+        description: "Her arama, sonuçları istekte bulunan kişinin yetkilerine göre filtreler. Erişim kuralları veri katmanında uygulanır.",
+      },
+      {
+        icon: Users,
+        title: "Ekipler İçin Hazır",
+        description: "Sahip, Yönetici ve Üye rolleri; üye bazında izinler, davetler ve hassas işlemler için denetim kayıtları.",
+      },
+    ],
+    securityLabel: "Güvenlik ve Kontrol",
+    securityTitleAccent: "İzinleri Önceleyen",
+    securityTitleRest: " mimari",
+    securityDescription: "Güvenlik, yalnızca arayüzde gizlenmez; veri katmanında uygulanır.",
+    securityFeatures: [
+      {
+        icon: Lock,
+        title: "Çalışma Alanı Yalıtımı",
+        description: "Her istekte kullanıcı, çalışma alanı ve kaynak sahipliği yeniden doğrulanır. İstemciye güvenilmez.",
+      },
+      {
+        icon: Shield,
+        title: "Rol Tabanlı Erişim",
+        description: "Bilgi tabanı izinleri ve üye bazlı istisnalarla Sahip, Yönetici ve Üye rolleri.",
+      },
+      {
+        icon: Users,
+        title: "Denetim Kaydı",
+        description: "Tüm yönetici işlemleri kaydedilir. Kimin, neyi, ne zaman ve neden değiştirdiğini inceleyin.",
+      },
+    ],
+    useCasesLabel: "Kullanım Alanları",
+    useCasesTitlePrefix: "Gerçek ekipler için",
+    useCasesTitleAccent: "tasarlandı",
+    useCases: [
+      {
+        tag: "Müşteri Desteği",
+        title: "Kaynak Gösteren Yapay Zekâ Desteği",
+        description: "Yardım merkezinizi, SOP'lerinizi ve ürün kılavuzlarınızı ekleyin. Destek ekipleri aramaya daha az, sorun çözmeye daha çok zaman ayırsın.",
+      },
+      {
+        tag: "Çalışan Oryantasyonu",
+        title: "‘Nerede Bulabilirim?’ Sorularını Yanıtlayın",
+        description: "Yeni çalışanlar, ekip arkadaşlarının işini bölmek yerine BT politikalarını, şirket wiki'sini ve süreçleri yapay zekâya sorabilir.",
+      },
+      {
+        tag: "Teknik Belgeler",
+        title: "Soruları Yanıtlayan Mühendislik Belgeleri",
+        description: "API tanımlarını, operasyon kılavuzlarını ve mimari belgeleri yükleyin. Mühendisler kaynaklara doğrudan bağlantılar içeren yanıtlar alır.",
+      },
+    ],
+    plansLabel: "Satış Seçenekleri",
+    plansTitlePrefix: "Pallas'ı",
+    plansTitleAccent: " ihtiyacınıza göre dağıtın.",
+    plansDescription:
+      "Ücretsiz Community Edition ile başlayın, özel dağıtımı görüşün veya yakında sunulacak SaaS hizmetini takip edin.",
+    plans: [
+      {
+        name: "Community Edition",
+        status: "ÜCRETSİZ COMMUNITY EDITION",
+        offer: "Ücretsiz",
+        offerNote: "Community Edition",
+        description: "Ücretsiz Community Edition kaynak kodu ve dağıtım belgeleri GitHub'da.",
+        features: [
+          "FastAPI arka ucu ve React + Vite ön yüzü",
+          "Bilgi tabanı, arama ve ajan iş akışı API'leri",
+          "Dağıtım belgelerinin bulunduğu açık GitHub deposu",
+        ],
+        action: "GitHub deposunu görüntüleyin",
+        href: "https://github.com/BelongToMachine/agent-workflow-fast-api",
+        external: true,
+      },
+      {
+        name: "Kurumsal Özel Dağıtım",
+        status: "ÖZEL DAĞITIM",
+        offer: "Görüşelim",
+        offerNote: "Kapsam ve gereksinimler",
+        description: "Pallas'ı kendi ortamınızda kullanın; ekibinize uygun dağıtım planını birlikte belirleyelim.",
+        features: [
+          "Şirketinizin kendi ortamında özel dağıtım",
+          "Çalışma alanı yalıtımı ve rol tabanlı erişim denetimi",
+          "Ekibinizin ihtiyaçlarına göre dağıtım kapsamı",
+        ],
+        action: "Bize ulaşın",
+        href: "#demo",
+        external: false,
+      },
+      {
+        name: "Pallas Cloud",
+        status: "GELİŞTİRİLİYOR",
+        offer: "Yakında",
+        offerNote: "Lansman ayrıntıları daha sonra paylaşılacak",
+        description: "Barındırılan SaaS hizmeti geliştiriliyor. Kullanılabilirlik tarihi ve hizmet ayrıntıları daha sonra açıklanacak.",
+        features: [
+          "Barındırılan SaaS deneyimi geliştiriliyor",
+          "Hizmet ayrıntıları henüz kesinleşmedi",
+          "Kullanılabilirlik tarihi daha sonra duyurulacak",
+        ],
+        action: "Yakında",
+        href: null,
+        external: false,
+      },
+    ],
+    storyLabel: "Müşteri Görüşleri",
+    storyTitlePrefix: "Asianode'un Pallas hakkındaki ",
+    storyTitleAccent: "deneyimi",
+    storyTitleSuffix: "",
+    portraitAlt: "Asianode ekip üyesinin portresi",
+    quote:
+      "Pallas, ekibimizin ortak belgelerden net yanıtları daha kolay bulmasını sağlıyor. Her yanıtın kaynağını doğrulayabiliyoruz; rol tabanlı erişim de bilgilerin doğru kişilerde kalmasını sağlıyor.",
+    quoteBy: "Asianode ekibi",
+    brandLink: "Asianode",
+    finalTitle: "Bilginizin kaybolmasına son verin.",
+    finalTitleAccent: "Yanıtlamaya başlayın.",
+    finalDescription: "Pallas'ın dağınık belgelerinizi izinlere duyarlı, yapay zekâ destekli bir bilgi tabanına nasıl dönüştürdüğünü görün.",
+    finalRequestDemo: "Demo İsteyin",
+    readDocs: "Belgeleri okuyun",
+  },
+  fr: {
+    badge: "IA de la connaissance d’entreprise",
+    tagline: "Vos documents.",
+    taglineAccent: "Vos règles. L’IA répond.",
+    intro:
+      "Pallas rassemble vos documents produit, wikis et FAQ dispersés dans une base de connaissances IA respectueuse des permissions, pour fournir à votre équipe des réponses traçables, sans désordre.",
+    requestDemo: "Demander une démo",
+    exploreFeatures: "Découvrir les fonctionnalités",
+    highlights: ["Déploiement privé", "Espaces isolés", "Sources citées"],
+    knowledgeLabel: "Base de connaissances",
+    knowledgeTitleAccent: "Vos documents,",
+    knowledgeTitleRest: " organisés",
+    knowledgeTitleSecond: "et interrogeables",
+    knowledgeDescription: "Importez une fois, posez toutes vos questions. Chaque réponse renvoie à sa source.",
+    knowledgeFeatures: [
+      {
+        icon: FileUp,
+        title: "Import de nombreux formats",
+        description: "Glissez-déposez des PDF, fichiers Excel (.xlsx), CSV, JSON, Markdown et du texte brut. Le traitement asynchrone gère l’analyse, le découpage et les mises à jour d’état en arrière-plan.",
+      },
+      {
+        icon: Search,
+        title: "Recherche sémantique",
+        description: "Les embeddings propulsés par pgvector retrouvent le bon contexte dans vos documents. Posez vos questions naturellement et obtenez des réponses précises avec leurs sources.",
+      },
+      {
+        icon: FileText,
+        title: "Sources citées",
+        description: "Chaque réponse renvoie au fichier et à la section d’origine. Vérifiez la source en un clic.",
+      },
+      {
+        icon: Database,
+        title: "Isolation des espaces de travail",
+        description: "Créez une base de connaissances par produit, équipe ou client, avec ses propres fichiers, permissions et cycle de vie.",
+      },
+    ],
+    agentLabel: "Agent IA",
+    agentTitleAccent: "Des réponses",
+    agentTitleRest: " fiables",
+    agentDescription: "Des conversations en continu avec recherche par outils, boucles d’agent limitées et filtrage des permissions.",
+    agentFeatures: [
+      {
+        icon: MessageSquare,
+        title: "Chat en continu",
+        description: "Réponses en temps réel via SSE. L’historique est conservé entre les sessions et le flux peut reprendre après une coupure.",
+      },
+      {
+        icon: Bot,
+        title: "Flux de travail contrôlé",
+        description: "Listes d’outils autorisés côté serveur, validation des paramètres et boucles limitées ancrent les réponses dans votre base de connaissances.",
+      },
+      {
+        icon: Shield,
+        title: "Recherche respectueuse des permissions",
+        description: "Chaque recherche filtre les résultats selon les droits de la personne qui pose la question. Les règles sont appliquées au niveau des données.",
+      },
+      {
+        icon: Users,
+        title: "Pensé pour les équipes",
+        description: "Rôles Propriétaire, Admin et Membre, permissions par membre, invitations et journaux d’audit pour les actions sensibles.",
+      },
+    ],
+    securityLabel: "Sécurité et contrôle",
+    securityTitleAccent: "Une architecture",
+    securityTitleRest: " fondée sur les permissions",
+    securityDescription: "La sécurité est appliquée au niveau des données, pas simplement masquée dans l’interface.",
+    securityFeatures: [
+      {
+        icon: Lock,
+        title: "Isolation des espaces de travail",
+        description: "Chaque requête revérifie l’utilisateur, l’espace de travail et la propriété des ressources. Le client n’est jamais considéré comme fiable.",
+      },
+      {
+        icon: Shield,
+        title: "Accès par rôle",
+        description: "Rôles Propriétaire, Admin et Membre, avec autorisations par base de connaissances et exceptions par membre.",
+      },
+      {
+        icon: Users,
+        title: "Journal d’audit",
+        description: "Chaque action d’administration est enregistrée. Consultez qui a modifié quoi, quand et pourquoi.",
+      },
+    ],
+    useCasesLabel: "Cas d’usage",
+    useCasesTitlePrefix: "Conçu pour les ",
+    useCasesTitleAccent: "équipes réelles",
+    useCases: [
+      {
+        tag: "Assistance client",
+        title: "Un support IA qui cite ses sources",
+        description: "Ajoutez votre centre d’aide, vos procédures et vos manuels produit. Les équipes support cherchent moins et résolvent davantage.",
+      },
+      {
+        tag: "Intégration des employés",
+        title: "Répondez aux questions du quotidien",
+        description: "Les nouvelles recrues peuvent interroger l’IA sur les politiques informatiques, les wikis internes et les processus, sans interrompre leurs collègues.",
+      },
+      {
+        tag: "Documentation technique",
+        title: "Des documents d’ingénierie qui répondent",
+        description: "Importez spécifications API, guides d’exploitation et documents d’architecture. Les ingénieurs reçoivent des réponses avec des liens directs vers les sources.",
+      },
+    ],
+    plansLabel: "Offres commerciales",
+    plansTitlePrefix: "Déployez Pallas",
+    plansTitleAccent: " à votre façon.",
+    plansDescription: "Commencez avec l’édition communautaire gratuite, discutons d’un déploiement privé ou suivez l’arrivée prochaine du service SaaS.",
+    plans: [
+      {
+        name: "Édition communautaire",
+        status: "ÉDITION COMMUNAUTAIRE GRATUITE",
+        offer: "Gratuit",
+        offerNote: "Édition communautaire",
+        description: "Le code source et la documentation de déploiement de l’édition gratuite sont disponibles sur GitHub.",
+        features: [
+          "Backend FastAPI et frontend React + Vite",
+          "API de base de connaissances, recherche et flux d’agent",
+          "Dépôt GitHub public avec documentation de déploiement",
+        ],
+        action: "Voir le dépôt GitHub",
+        href: "https://github.com/BelongToMachine/agent-workflow-fast-api",
+        external: true,
+      },
+      {
+        name: "Déploiement privé pour entreprise",
+        status: "DÉPLOIEMENT PRIVÉ",
+        offer: "Parlons-en",
+        offerNote: "Périmètre et besoins",
+        description: "Hébergez Pallas dans votre propre environnement, avec un plan de déploiement adapté à votre équipe.",
+        features: [
+          "Déploiement privé dans votre environnement",
+          "Espaces de travail isolés et contrôle d’accès par rôle",
+          "Périmètre défini selon les besoins de l’équipe",
+        ],
+        action: "Nous contacter",
+        href: "#demo",
+        external: false,
+      },
+      {
+        name: "Pallas Cloud",
+        status: "EN DÉVELOPPEMENT",
+        offer: "Bientôt",
+        offerNote: "Informations de lancement à venir",
+        description: "Le service SaaS hébergé est en cours de développement. Sa disponibilité et ses modalités seront annoncées ultérieurement.",
+        features: [
+          "Service SaaS hébergé en développement",
+          "Modalités du service en cours de définition",
+          "Disponibilité annoncée ultérieurement",
+        ],
+        action: "Bientôt disponible",
+        href: null,
+        external: false,
+      },
+    ],
+    storyLabel: "Avis client",
+    storyTitlePrefix: "Le retour d’",
+    storyTitleAccent: "Asianode",
+    storyTitleSuffix: " sur Pallas",
+    portraitAlt: "Portrait d’un membre de l’équipe Asianode",
+    quote: "Pallas permet à notre équipe de trouver plus facilement des réponses claires dans les documents partagés. Nous pouvons vérifier chaque réponse à sa source, tandis que les accès par rôle protègent les informations.",
+    quoteBy: "Équipe Asianode",
+    brandLink: "Asianode",
+    finalTitle: "Ne perdez plus vos connaissances.",
+    finalTitleAccent: "Commencez à répondre.",
+    finalDescription: "Découvrez comment Pallas transforme vos documents dispersés en une base de connaissances IA respectueuse des permissions.",
+    finalRequestDemo: "Demander une démo",
+    readDocs: "Lire la documentation",
+  },
+  ja: {
+    badge: "企業向けナレッジ AI",
+    tagline: "ドキュメントを、",
+    taglineAccent: "チームのルールで AI が回答。",
+    intro: "Pallas は、散在する製品ドキュメント、Wiki、FAQ を権限に配慮した AI ナレッジベースにまとめ、根拠を確認できる回答をチームに届けます。",
+    requestDemo: "デモを申し込む",
+    exploreFeatures: "機能を見る",
+    highlights: ["プライベート導入", "ワークスペース分離", "出典を表示"],
+    knowledgeLabel: "ナレッジベース",
+    knowledgeTitleAccent: "ドキュメントを",
+    knowledgeTitleRest: "整理して、",
+    knowledgeTitleSecond: "質問に答える知識へ",
+    knowledgeDescription: "一度アップロードすれば、いつでも質問できます。回答はすべて元の情報源をたどれます。",
+    knowledgeFeatures: [
+      {
+        icon: FileUp,
+        title: "多形式ファイルのアップロード",
+        description: "PDF、Excel（.xlsx）、CSV、JSON、Markdown、テキストをドラッグ＆ドロップ。解析、分割、状態更新はバックグラウンドで非同期に処理します。",
+      },
+      {
+        icon: Search,
+        title: "セマンティック検索",
+        description: "pgvector によるベクトル検索で、ドキュメントから適切な情報を取得。自然な言葉で質問すると、出典付きの正確な回答が得られます。",
+      },
+      {
+        icon: FileText,
+        title: "出典の明示",
+        description: "回答には元のファイルと該当箇所へのリンクが付きます。ワンクリックで内容を確認できます。",
+      },
+      {
+        icon: Database,
+        title: "ワークスペースの分離",
+        description: "製品、チーム、顧客ごとにナレッジベースを作成し、ファイル、権限、ライフサイクルを個別に管理できます。",
+      },
+    ],
+    agentLabel: "AI エージェント",
+    agentTitleAccent: "信頼できる",
+    agentTitleRest: "回答を",
+    agentDescription: "ツールを活用した検索、制限付きのエージェント処理、権限フィルタリングを備えたストリーミング対話。",
+    agentFeatures: [
+      {
+        icon: MessageSquare,
+        title: "ストリーミングチャット",
+        description: "SSE によるリアルタイム応答。会話履歴はセッションをまたいで保存され、切断時もストリームを復旧できます。",
+      },
+      {
+        icon: Bot,
+        title: "制御されたエージェントワークフロー",
+        description: "サーバー側のツール許可リスト、パラメーター検証、回数制限により、回答をナレッジベースの内容に基づかせます。",
+      },
+      {
+        icon: Shield,
+        title: "権限に応じた検索",
+        description: "検索結果は質問者の権限に応じて絞り込まれます。アクセスルールはデータ層で適用されます。",
+      },
+      {
+        icon: Users,
+        title: "チーム利用に対応",
+        description: "Owner、Admin、Member のロール、メンバーごとの権限設定、招待、重要操作の監査ログに対応します。",
+      },
+    ],
+    securityLabel: "セキュリティと管理",
+    securityTitleAccent: "権限を前提とした",
+    securityTitleRest: "アーキテクチャ",
+    securityDescription: "セキュリティは UI 上で隠すだけでなく、データ層で適用されます。",
+    securityFeatures: [
+      {
+        icon: Lock,
+        title: "ワークスペースの分離",
+        description: "すべてのリクエストでユーザー、ワークスペース、リソースの所有者を再確認し、クライアントを信用しません。",
+      },
+      {
+        icon: Shield,
+        title: "ロールベースのアクセス制御",
+        description: "Owner、Admin、Member のロールに加え、ナレッジベース単位の権限とメンバーごとの例外を設定できます。",
+      },
+      {
+        icon: Users,
+        title: "監査ログ",
+        description: "管理操作を記録し、誰がいつ何を変更したかを確認できます。",
+      },
+    ],
+    useCasesLabel: "活用例",
+    useCasesTitlePrefix: "現場のチームのために",
+    useCasesTitleAccent: "設計",
+    useCases: [
+      {
+        tag: "カスタマーサポート",
+        title: "出典を示す AI サポート",
+        description: "ヘルプセンター、手順書、製品マニュアルを追加。サポートチームは検索の時間を減らし、解決に集中できます。",
+      },
+      {
+        tag: "社員のオンボーディング",
+        title: "「どこにありますか？」にすぐ回答",
+        description: "新入社員は IT ポリシー、社内 Wiki、業務手順を AI に質問でき、同僚への確認を減らせます。",
+      },
+      {
+        tag: "技術ドキュメント",
+        title: "質問に答えるエンジニアリング文書",
+        description: "API 仕様、運用手順、アーキテクチャ資料をアップロード。エンジニアは出典への直接リンク付きで回答を得られます。",
+      },
+    ],
+    plansLabel: "導入プラン",
+    plansTitlePrefix: "Pallas を",
+    plansTitleAccent: "最適な方法で導入",
+    plansDescription: "無料の Community Edition から始める、プライベート導入を相談する、または開発中の SaaS サービスをお待ちください。",
+    plans: [
+      {
+        name: "Community Edition",
+        status: "無料コミュニティ版",
+        offer: "無料",
+        offerNote: "Community Edition",
+        description: "無料版のソースコードと導入ドキュメントを GitHub で公開しています。",
+        features: [
+          "FastAPI バックエンドと React + Vite フロントエンド",
+          "ナレッジベース、検索、エージェントワークフロー API",
+          "導入ドキュメント付きの公開 GitHub リポジトリ",
+        ],
+        action: "GitHub リポジトリを見る",
+        href: "https://github.com/BelongToMachine/agent-workflow-fast-api",
+        external: true,
+      },
+      {
+        name: "エンタープライズ向けプライベート導入",
+        status: "プライベート導入",
+        offer: "ご相談ください",
+        offerNote: "導入範囲と要件",
+        description: "お客様の環境に Pallas を導入し、チームに合わせた計画をご提案します。",
+        features: [
+          "お客様の環境へのプライベート導入",
+          "ワークスペース分離とロールベースのアクセス制御",
+          "チームの要件に合わせた導入範囲の相談",
+        ],
+        action: "お問い合わせ",
+        href: "#demo",
+        external: false,
+      },
+      {
+        name: "Pallas Cloud",
+        status: "開発中",
+        offer: "近日公開",
+        offerNote: "提供開始時期は後日お知らせします",
+        description: "ホスト型 SaaS サービスを開発中です。提供時期とサービス内容は後日お知らせします。",
+        features: [
+          "ホスト型 SaaS を開発中",
+          "サービス内容を調整中",
+          "提供開始時期は後日発表",
+        ],
+        action: "近日公開",
+        href: null,
+        external: false,
+      },
+    ],
+    storyLabel: "お客様の声",
+    storyTitlePrefix: "Pallas についての",
+    storyTitleAccent: "Asianode チーム",
+    storyTitleSuffix: "",
+    portraitAlt: "Asianode チームメンバーのポートレート",
+    quote: "Pallas を使うことで、チームは共有ドキュメントから明確な回答を見つけやすくなりました。各回答の出典を確認でき、ロールベースのアクセス制御によって情報を適切な人だけに届けられます。",
+    quoteBy: "Asianode チーム",
+    brandLink: "Asianode",
+    finalTitle: "知識を失うのはもう終わり。",
+    finalTitleAccent: "答えを見つけましょう。",
+    finalDescription: "Pallas が散在するドキュメントを、権限に配慮した AI ナレッジベースに変える方法をご覧ください。",
+    finalRequestDemo: "デモを申し込む",
+    readDocs: "ドキュメントを見る",
+  },
+  es: {
+    badge: "IA de conocimiento empresarial",
+    tagline: "Tus documentos.",
+    taglineAccent: "Tus reglas. La IA responde.",
+    intro: "Pallas reúne documentos de producto, wikis y preguntas frecuentes dispersos en una base de conocimiento con control de permisos, para que tu equipo obtenga respuestas trazables y sin caos.",
+    requestDemo: "Solicitar una demo",
+    exploreFeatures: "Explorar funciones",
+    highlights: ["Despliegue privado", "Espacios aislados", "Fuentes citadas"],
+    knowledgeLabel: "Base de conocimiento",
+    knowledgeTitleAccent: "Tus documentos,",
+    knowledgeTitleRest: " organizados",
+    knowledgeTitleSecond: "y listos para consultar",
+    knowledgeDescription: "Carga una vez y pregunta lo que quieras. Cada respuesta remite a su fuente.",
+    knowledgeFeatures: [
+      {
+        icon: FileUp,
+        title: "Carga en varios formatos",
+        description: "Arrastra y suelta archivos PDF, Excel (.xlsx), CSV, JSON, Markdown y texto sin formato. El procesamiento asíncrono gestiona el análisis, la división en fragmentos y las actualizaciones en segundo plano.",
+      },
+      {
+        icon: Search,
+        title: "Búsqueda semántica",
+        description: "Las representaciones vectoriales de pgvector encuentran el contexto adecuado en tus documentos. Pregunta con naturalidad y obtén respuestas precisas con sus fuentes.",
+      },
+      {
+        icon: FileText,
+        title: "Citas de fuentes",
+        description: "Cada respuesta enlaza al archivo y a la sección de origen. Comprueba la fuente con un clic.",
+      },
+      {
+        icon: Database,
+        title: "Aislamiento de espacios de trabajo",
+        description: "Crea bases de conocimiento para cada producto, equipo o cliente, con sus propios archivos, permisos y ciclo de vida.",
+      },
+    ],
+    agentLabel: "Agente de IA",
+    agentTitleAccent: "Respuestas",
+    agentTitleRest: " fiables",
+    agentDescription: "Conversaciones en tiempo real con recuperación mediante herramientas, ciclos de agente acotados y filtros de permisos.",
+    agentFeatures: [
+      {
+        icon: MessageSquare,
+        title: "Chat en tiempo real",
+        description: "Respuestas inmediatas mediante SSE. El historial se conserva entre sesiones y el flujo puede recuperarse si se interrumpe la conexión.",
+      },
+      {
+        icon: Bot,
+        title: "Flujo de agente controlado",
+        description: "Listas de herramientas permitidas en el servidor, validación de parámetros y ciclos acotados mantienen las respuestas basadas en tu conocimiento.",
+      },
+      {
+        icon: Shield,
+        title: "Recuperación según permisos",
+        description: "Cada búsqueda filtra los resultados según los permisos de quien pregunta. Las reglas de acceso se aplican en la capa de datos.",
+      },
+      {
+        icon: Users,
+        title: "Preparado para equipos",
+        description: "Roles de Propietario, Administrador y Miembro, permisos individuales, invitaciones y registros de auditoría para acciones sensibles.",
+      },
+    ],
+    securityLabel: "Seguridad y control",
+    securityTitleAccent: "Arquitectura basada",
+    securityTitleRest: " en permisos",
+    securityDescription: "La seguridad se aplica en la capa de datos, no solo se oculta en la interfaz.",
+    securityFeatures: [
+      {
+        icon: Lock,
+        title: "Aislamiento de espacios",
+        description: "Cada solicitud vuelve a validar al usuario, el espacio de trabajo y la propiedad del recurso. No se confía en el cliente.",
+      },
+      {
+        icon: Shield,
+        title: "Acceso basado en roles",
+        description: "Roles de Propietario, Administrador y Miembro, con permisos por base de conocimiento y excepciones por persona.",
+      },
+      {
+        icon: Users,
+        title: "Registro de auditoría",
+        description: "Se registran todas las acciones administrativas. Consulta quién cambió qué, cuándo y por qué.",
+      },
+    ],
+    useCasesLabel: "Casos de uso",
+    useCasesTitlePrefix: "Diseñado para",
+    useCasesTitleAccent: " equipos reales",
+    useCases: [
+      {
+        tag: "Atención al cliente",
+        title: "Soporte de IA que cita sus fuentes",
+        description: "Añade tu centro de ayuda, procedimientos y manuales de producto. El equipo de soporte busca menos y resuelve más.",
+      },
+      {
+        tag: "Incorporación de empleados",
+        title: "Resuelve las dudas de cada día",
+        description: "Las nuevas incorporaciones pueden preguntar a la IA sobre políticas de TI, wikis internos y procesos, sin interrumpir a sus compañeros.",
+      },
+      {
+        tag: "Documentación técnica",
+        title: "Documentos de ingeniería que responden",
+        description: "Carga especificaciones de API, manuales operativos y documentos de arquitectura. Los ingenieros obtienen respuestas con enlaces directos a las fuentes.",
+      },
+    ],
+    plansLabel: "Planes comerciales",
+    plansTitlePrefix: "Despliega Pallas",
+    plansTitleAccent: " a tu manera.",
+    plansDescription: "Empieza con la edición comunitaria gratuita, consulta un despliegue privado o sigue el desarrollo del próximo servicio SaaS.",
+    plans: [
+      {
+        name: "Community Edition",
+        status: "EDICIÓN COMUNITARIA GRATUITA",
+        offer: "Gratis",
+        offerNote: "Community Edition",
+        description: "El código fuente y la documentación de despliegue de la edición gratuita están en GitHub.",
+        features: [
+          "Backend FastAPI y frontend React + Vite",
+          "API de base de conocimiento, búsqueda y flujo de agente",
+          "Repositorio público en GitHub con documentación de despliegue",
+        ],
+        action: "Ver el repositorio en GitHub",
+        href: "https://github.com/BelongToMachine/agent-workflow-fast-api",
+        external: true,
+      },
+      {
+        name: "Despliegue privado empresarial",
+        status: "DESPLIEGUE PRIVADO",
+        offer: "Hablemos",
+        offerNote: "Alcance y requisitos",
+        description: "Instala Pallas en tu propio entorno con un plan de despliegue adaptado a tu equipo.",
+        features: [
+          "Despliegue privado en tu entorno",
+          "Aislamiento de espacios y controles de acceso por rol",
+          "Alcance del despliegue según las necesidades de tu equipo",
+        ],
+        action: "Contactar",
+        href: "#demo",
+        external: false,
+      },
+      {
+        name: "Pallas Cloud",
+        status: "EN DESARROLLO",
+        offer: "Próximamente",
+        offerNote: "Pronto anunciaremos los detalles",
+        description: "El servicio SaaS alojado está en desarrollo. Más adelante anunciaremos su disponibilidad y sus características.",
+        features: [
+          "Servicio SaaS alojado en desarrollo",
+          "Los detalles del servicio siguen en preparación",
+          "La fecha de disponibilidad se anunciará más adelante",
+        ],
+        action: "Próximamente",
+        href: null,
+        external: false,
+      },
+    ],
+    storyLabel: "Opiniones de clientes",
+    storyTitlePrefix: "La experiencia de ",
+    storyTitleAccent: "Asianode",
+    storyTitleSuffix: " con Pallas",
+    portraitAlt: "Retrato de un miembro del equipo de Asianode",
+    quote: "Pallas ayuda a nuestro equipo a encontrar respuestas claras en los documentos compartidos. Podemos verificar cada respuesta en su fuente, mientras que el acceso por roles mantiene la información en las manos adecuadas.",
+    quoteBy: "Equipo de Asianode",
+    brandLink: "Asianode",
+    finalTitle: "Deja de perder conocimiento.",
+    finalTitleAccent: "Empieza a responder.",
+    finalDescription: "Descubre cómo Pallas convierte documentos dispersos en una base de conocimiento con permisos y respuestas trazables.",
+    finalRequestDemo: "Solicitar una demo",
+    readDocs: "Leer la documentación",
+  },
 } as const;
 
 export default function HomePage({ locale }: { locale: SiteLocale }) {
   const t = messages[locale];
-  const kickerTypography = locale === "zh" ? "" : "font-pixel uppercase tracking-[0.28em]";
+  const isCjkLocale = locale === "zh" || locale === "ja";
+  const kickerTypography = isCjkLocale ? "" : "font-pixel uppercase tracking-[0.28em]";
   return (
-    <div lang={locale === "zh" ? "zh-CN" : "en"} className="flex flex-col">
+    <div lang={locale === "zh" ? "zh-CN" : locale} className="flex flex-col">
       {/* ============ HERO ============ */}
       <section id="product" data-pallas-hero className="relative overflow-hidden px-5 sm:px-8 md:px-6 lg:px-14 pt-8 pb-12 sm:pt-10 sm:pb-14 md:pt-12 md:pb-16 lg:pt-14 lg:pb-20">
         <ScrollingHeroTitle locale={locale} />
@@ -401,14 +1075,14 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
           {/* Badge */}
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/[0.06] px-4 py-2">
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-            <span className={`text-[10px] text-primary ${locale === "zh" ? "" : "font-pixel uppercase tracking-[0.22em]"}`}>
+            <span className={`text-[10px] text-primary ${isCjkLocale ? "" : "font-pixel uppercase tracking-[0.22em]"}`}>
               {t.badge}
             </span>
           </div>
 
           {/* Headline */}
-          <h2 className={`mb-4 text-[clamp(0.85rem,2.7vw,2rem)] font-black uppercase leading-none tracking-[0.02em] text-foreground ${locale === "zh" ? "whitespace-normal break-keep" : "whitespace-nowrap"}`}>
-            {t.tagline}{locale === "en" ? " " : ""}<span className="text-primary">{t.taglineAccent}</span>
+          <h2 className={`mb-4 text-[clamp(0.85rem,2.7vw,2rem)] font-black uppercase leading-none tracking-[0.02em] text-foreground ${isCjkLocale ? "whitespace-normal break-keep" : "whitespace-normal"}`}>
+            {t.tagline}{isCjkLocale ? "" : " "}<span className="text-primary">{t.taglineAccent}</span>
           </h2>
 
           {/* Subheadline */}
@@ -419,7 +1093,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
           {/* CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button asChild size="lg">
-              <a href="#demo">
+              <a href="#demo" data-contact-intent="demo">
                 {t.requestDemo}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
@@ -434,7 +1108,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
             {t.highlights.map((highlight, index) => (
               <span key={highlight} className="inline-flex items-center gap-6">
                 {index > 0 && <span aria-hidden="true" className="h-1 w-1 bg-muted-foreground/40" />}
-                <span className={`text-[10px] ${locale === "zh" ? "" : "font-pixel uppercase tracking-[0.18em]"}`}>
+                <span className={`text-[10px] ${isCjkLocale ? "" : "font-pixel uppercase tracking-[0.18em]"}`}>
                   {highlight}
                 </span>
               </span>
@@ -570,7 +1244,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
                 key={uc.tag}
                 className="flex cursor-pointer flex-col rounded-2xl border border-border/70 bg-card/65 p-6 transition-[border-color,background-color] duration-300 hover:border-primary/35 hover:bg-card/90"
               >
-                <span className={`mb-4 inline-block self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[9px] text-primary ${locale === "zh" ? "" : "font-pixel uppercase tracking-[0.14em]"}`}>
+                <span className={`mb-4 inline-block self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[9px] text-primary ${isCjkLocale ? "" : "font-pixel uppercase tracking-[0.14em]"}`}>
                   {uc.tag}
                 </span>
                 <h3 className="mb-3 text-lg font-semibold leading-snug tracking-tight text-foreground">
@@ -609,7 +1283,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
                 key={plan.name}
                 className="group flex flex-col rounded-2xl border border-border/70 bg-card/65 p-8 transition-[border-color,background-color,box-shadow] duration-300 hover:border-primary/35 hover:bg-card/90 hover:shadow-[0_18px_42px_-34px_hsl(var(--primary)/0.7)] md:min-h-[31rem] lg:p-9"
               >
-                <span className={`mb-4 inline-block self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[9px] text-primary ${locale === "zh" ? "" : "font-pixel uppercase tracking-[0.14em]"}`}>
+                <span className={`mb-4 inline-block self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[9px] text-primary ${isCjkLocale ? "" : "font-pixel uppercase tracking-[0.14em]"}`}>
                   {plan.status}
                 </span>
 
@@ -653,6 +1327,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
                     >
                       <a
                         href={plan.href}
+                        data-contact-intent={plan.href === "#demo" ? "private-deployment" : undefined}
                         target={plan.external ? "_blank" : undefined}
                         rel={plan.external ? "noopener noreferrer" : undefined}
                       >
@@ -683,7 +1358,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
       >
         <div className="mx-auto max-w-5xl">
           <div className="mb-5 max-w-2xl">
-            <p className={`mb-2 text-[10px] text-primary ${locale === "zh" ? "" : "font-pixel uppercase tracking-[0.24em]"}`}>
+            <p className={`mb-2 text-[10px] text-primary ${isCjkLocale ? "" : "font-pixel uppercase tracking-[0.24em]"}`}>
               {t.storyLabel}
             </p>
             <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
@@ -707,8 +1382,6 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
               </blockquote>
               <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
                 <span className="font-medium text-foreground">{t.quoteBy}</span>
-                <span aria-hidden="true">·</span>
-                <span>{t.quoteStatus}</span>
                 <a
                   href="https://asianodeatlas.com/"
                   target="_blank"
@@ -738,7 +1411,7 @@ export default function HomePage({ locale }: { locale: SiteLocale }) {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Button asChild size="lg">
-                <a href="#">
+                <a href="#demo" data-contact-intent="demo">
                   {t.finalRequestDemo}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>

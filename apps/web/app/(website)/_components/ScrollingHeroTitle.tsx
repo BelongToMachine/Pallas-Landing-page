@@ -1,8 +1,18 @@
 "use client";
 
 import { useEffect } from "react";
+import type { SiteLocale } from "@/lib/i18n";
 
-export default function ScrollingHeroTitle({ locale }: { locale: "en" | "zh" }) {
+const titles: Record<SiteLocale, [string, string]> = {
+  en: ["YOUR NEXT GEN", "TEAM’S AI KNOWLEDGE HUB"],
+  zh: ["新一代团队", "AI 知识中枢"],
+  tr: ["EKİBİNİZİN YENİ NESLİ", "EKİBİNİZİN AI BİLGİ MERKEZİ"],
+  fr: ["LA NOUVELLE GÉNÉRATION", "DE VOTRE ÉQUIPE"],
+  ja: ["次世代のチーム", "AI ナレッジハブ"],
+  es: ["LA NUEVA GENERACIÓN", "DE TU EQUIPO"],
+};
+
+export default function ScrollingHeroTitle({ locale }: { locale: SiteLocale }) {
   useEffect(() => {
     const title = document.querySelector<HTMLElement>("[data-pallas-hero-title]");
     const hero = title?.closest<HTMLElement>("[data-pallas-hero]");
@@ -48,10 +58,10 @@ export default function ScrollingHeroTitle({ locale }: { locale: "en" | "zh" }) 
       className="relative z-10 mx-auto mb-8 block w-full max-w-7xl px-2 text-center font-black uppercase leading-none tracking-[0.015em] text-foreground sm:mb-10"
     >
       <span className="block text-[clamp(2.25rem,5.3vw,4.75rem)]">
-        {locale === "zh" ? "新一代团队" : "YOUR NEXT GEN"}
+        {titles[locale][0]}
       </span>
       <span className="mt-[0.08em] block text-balance text-[clamp(2rem,5.8vw,5.25rem)] leading-[1.02] tracking-[0.01em] text-primary">
-        {locale === "zh" ? "AI 知识中枢" : "TEAM’S AI KNOWLEDGE HUB"}
+        {titles[locale][1]}
       </span>
     </h1>
   );
