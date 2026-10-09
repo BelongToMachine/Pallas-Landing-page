@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { SiteLocale } from "@/lib/i18n";
+import ProductVideoSection from "./ProductVideoSection";
 
 const copy = {
   en: {
@@ -166,6 +167,8 @@ export default function ProductPreview({ locale }: { locale: SiteLocale }) {
           </div>
         </div>
       </div>
+
+      <ProductVideoSection locale={locale} />
     </div>
   );
 }
